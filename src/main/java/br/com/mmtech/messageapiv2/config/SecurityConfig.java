@@ -13,22 +13,20 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 public class SecurityConfig {
 
-    @Bean
-    public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity
-                .csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(requests -> requests.anyRequest().authenticated())
-                .httpBasic(Customizer.withDefaults());
+  @Bean
+  public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
+    httpSecurity
+        .csrf(AbstractHttpConfigurer::disable)
+        .authorizeHttpRequests(requests -> requests.anyRequest().authenticated())
+        .httpBasic(Customizer.withDefaults());
 
-        return httpSecurity.build();
-    }
+    return httpSecurity.build();
+  }
 
-    @Bean
-    public InMemoryUserDetailsManager userDetailsService() {
-        UserDetails user = User.withUsername("message-api")
-                .password("{noop}message-api")
-                .roles("ADMIN")
-                .build();
-        return new InMemoryUserDetailsManager(user);
-    }
+  @Bean
+  public InMemoryUserDetailsManager userDetailsService() {
+    UserDetails user =
+        User.withUsername("message-api").password("{noop}message-api").roles("ADMIN").build();
+    return new InMemoryUserDetailsManager(user);
+  }
 }
