@@ -1,0 +1,27 @@
+server:
+  port: 8080
+#
+#spring:
+#  datasource:
+#    driver-class-name: com.
+#    username: lojist03_adm
+#    password: lojista4465
+#    url: jdbc:mysql://162.241.203.161:3306/lojist03_link
+#  jpa:
+#    database: mysql
+#    hibernate:
+#      ddl-auto: none
+
+spring:
+  h2:
+    console:
+      enabled: true
+      path: /h2
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+  datasource:
+    url: jdbc:h2:file:~/test
+    username: sa
+    password:
+    driverClassName: org.h2.Driver
