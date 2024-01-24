@@ -13,9 +13,7 @@ public class PostGroup {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @Column(name = "shop_id")
-  private Long shopId;
+  @Column private Long shopId;
 
-  @Column(name = "week_group")
-  private WeekGroup weekGroup;
+  @Column private WeekGroup weekGroup;
 }
