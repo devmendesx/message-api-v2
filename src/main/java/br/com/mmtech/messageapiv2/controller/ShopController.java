@@ -3,6 +3,7 @@ package br.com.mmtech.messageapiv2.controller;
 import br.com.mmtech.messageapiv2.dto.ShopDto;
 import br.com.mmtech.messageapiv2.service.ShopService;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,8 +22,8 @@ public class ShopController {
   private final ShopService shopService;
 
   @GetMapping
-  @Cacheable(value = "findAllShops")
-  public ResponseEntity<List<ShopDto>> findAll() {
+  @Cacheable(value = "#allShops")
+  public ResponseEntity<List<ShopDto>> findAll() throws ExecutionException, InterruptedException {
     try {
       return ResponseEntity.ok(this.shopService.findAll());
     } catch (Exception exception) {

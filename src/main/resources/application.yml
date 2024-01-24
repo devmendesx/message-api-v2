@@ -3,7 +3,7 @@ server:
 #
 #spring:
 #  datasource:
-#    driver-class-name: com.
+#    driver-class-name: com.mysql.cj.jdbc.Driver
 #    username: lojist03_adm
 #    password: lojista4465
 #    url: jdbc:mysql://162.241.203.161:3306/lojist03_link
@@ -11,6 +11,15 @@ server:
 #    database: mysql
 #    hibernate:
 #      ddl-auto: none
+
+cloud:
+  aws:
+    credentials:
+      access-key: AKIAW3MEASDQTJ2Z2GPQ
+      secret-key: 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
+    region:
+      static: sa-east-1
+    bucket: fcs-bucket-supplier
 
 spring:
   h2:
@@ -20,6 +29,7 @@ spring:
   jpa:
     hibernate:
       ddl-auto: create-drop
+    open-in-view: false
   datasource:
     url: jdbc:h2:file:~/test
     username: sa

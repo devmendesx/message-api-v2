@@ -3,6 +3,10 @@ package br.com.mmtech.messageapiv2.service;
 import br.com.mmtech.messageapiv2.dto.ShopDto;
 import br.com.mmtech.messageapiv2.repository.ShopRepository;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,11 +17,11 @@ import org.springframework.stereotype.Service;
 public class ShopService {
 
   private final ShopRepository repository;
+  private final ExecutorService executorService = Executors.newFixedThreadPool(400);
 
-  public List<ShopDto> findAll() {
-    var shops = this.repository.findAll();
-
-    return shops.stream()
+  public List<ShopDto> findAll() throws ExecutionException, InterruptedException {
+    var shops = CompletableFuture.supplyAsync(this.repository::findAll, executorService);
+    return shops.get().stream()
         .map(
             shop ->
                 ShopDto.builder()
