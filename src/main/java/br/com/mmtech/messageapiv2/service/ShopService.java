@@ -1,5 +1,6 @@
 package br.com.mmtech.messageapiv2.service;
 
+import br.com.mmtech.messageapiv2.domain.Shop;
 import br.com.mmtech.messageapiv2.dto.ShopDto;
 import br.com.mmtech.messageapiv2.repository.ShopRepository;
 import java.util.List;
@@ -35,5 +36,9 @@ public class ShopService {
                     .createdAt(shop.getCreatedAt())
                     .build())
         .collect(Collectors.toList());
+  }
+
+  public List<Shop> findAllByIds(List<Long> ids) {
+    return this.repository.findAllById(ids);
   }
 }

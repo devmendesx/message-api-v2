@@ -17,17 +17,20 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class PostService {
 
-  private final ShopRepository shopRepository;
+  private final ShopService shopService;
   private final PostGroupService postGroupService;
   private final FeaturedImageService featuredImageService;
   private final LinkService linkService;
 
   public List<PostDto> allPosts() {
     try {
-      log.info("[msg=Buscando novos fornecedores para enviar mensagem.]");
       var postGroups = WeekGroup.getPlansByDay(LocalDate.now().getDayOfWeek());
       var shopIds = this.postGroupService.findShopIdByPostGroups(postGroups);
-      var shops = this.shopRepository.findAllById(shopIds);
+      log.info("msg=Buscando novos fornecedores para enviar mensagem., workGroup={}", postGroups);
+      var shops = this.shopService.findAllByIds(shopIds);
+      var shopsAll = this.shopService.findAll();
+      var postGroupsAll = this.postGroupService.findAllPostGroups();
+      log.info("shops={}, posts={}",shopsAll, postGroupsAll);
 
       return shops.stream()
           .map(
