@@ -8,8 +8,9 @@ import lombok.Getter;
 @Builder
 public class PostDto {
   private String name;
-  private String whatsappUrl;
+  private String whatsappId;
   private String address;
   private String imageUrl;
   private Department department;
+  private String description;
 }

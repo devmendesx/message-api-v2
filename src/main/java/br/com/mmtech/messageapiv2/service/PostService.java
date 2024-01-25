@@ -44,7 +44,8 @@ public class PostService {
                 var department = Department.getDepartmentById(shop.getDepartmentId());
                 return PostDto.builder()
                     .name(shop.getName())
-                    .whatsappUrl(link.getUniqueName())
+                    .whatsappId(link.getUniqueName())
+                    .description(shop.getDescription())
                     .imageUrl(featuredImage != null ? featuredImage.getFeaturedImage() : null)
                     .address(shop.getAddress())
                     .department(department)
