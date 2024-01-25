@@ -17,11 +17,18 @@ public class PostGroupService {
 
   private final PostGroupRepository postGroupRepository;
 
-  public List<PostGroupDto> findAllPostGroups() {
+  public List<PostGroupDto> findAllPostGroupsByPostGroup() {
     List<WeekGroup> weekGroups = WeekGroup.getPlansByDay(LocalDate.now().getDayOfWeek());
 
     var postGroups =
         this.postGroupRepository.findAllByPostGroupIn(weekGroups).orElse(Collections.emptyList());
+    return postGroups.stream()
+        .map(post -> PostGroupDto.builder().id(post.getId()).weekGroup(post.getPostGroup()).build())
+        .collect(Collectors.toList());
+  }
+
+  public List<PostGroupDto> findAll() {
+    var postGroups = this.postGroupRepository.findAll();
     return postGroups.stream()
         .map(post -> PostGroupDto.builder().id(post.getId()).weekGroup(post.getPostGroup()).build())
         .collect(Collectors.toList());

@@ -22,7 +22,7 @@ public class PostGroupController {
   public ResponseEntity<?> findAllPostGroup() {
     try {
       log.info("m=findAllPostGroup");
-      return ResponseEntity.ok(this.postGroupService.findAllPostGroups());
+      return ResponseEntity.ok(this.postGroupService.findAll());
     } catch (Exception ex) {
       log.error("m=findAllPostGroup, ex={}", ex.getMessage());
       throw ex;

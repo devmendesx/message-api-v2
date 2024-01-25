@@ -28,7 +28,7 @@ public class PostService {
       log.info("msg=Buscando novos fornecedores para enviar mensagem., workGroup={}", postGroups);
       var shops = this.shopService.findAllByIds(shopIds);
       var shopsAll = this.shopService.findAll();
-      var postGroupsAll = this.postGroupService.findAllPostGroups();
+      var postGroupsAll = this.postGroupService.findAll();
       log.info("shops={}, posts={}", shopsAll, postGroupsAll);
 
       return shops.stream()
