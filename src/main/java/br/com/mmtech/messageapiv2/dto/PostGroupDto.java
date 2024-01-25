@@ -3,7 +3,7 @@ package br.com.mmtech.messageapiv2.dto;
 import br.com.mmtech.messageapiv2.enumerated.WeekGroup;
 import lombok.*;
 
-@Getter
+@Data
 @Builder
 @AllArgsConstructor
 @RequiredArgsConstructor
