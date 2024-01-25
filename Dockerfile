@@ -21,5 +21,5 @@ ENV GRADLE=/usr/app
 WORKDIR $APP
 COPY --from=BUILD $GRADLE/build/libs/*.jar $APP/$ARTIFACT_NAME
     
-EXPOSE 8080
+EXPOSE 9090
 ENTRYPOINT exec java -jar ${ARTIFACT_NAME} -Dspring.profiles.active=dev
