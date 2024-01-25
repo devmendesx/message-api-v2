@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface LinkRepository extends JpaRepository<Link, Long> {
-  Link findByShopId(Long id);
+  Link findByShopIdAndLinkTypeId(Long id, Long linkTypeId);
 }

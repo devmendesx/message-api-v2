@@ -13,7 +13,7 @@ public class LinkService {
 
   public Link findByShopId(Long id) {
     try {
-      return this.linkRepository.findByShopId(id);
+      return this.linkRepository.findByShopIdAndLinkTypeId(id, 1L);
     } catch (Exception exception) {
       throw exception;
     }
