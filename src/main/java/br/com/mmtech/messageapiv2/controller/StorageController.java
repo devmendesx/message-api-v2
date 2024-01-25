@@ -39,4 +39,14 @@ public class StorageController {
         .header("Content-Disposition", "attachment; filename=" + fileName)
         .body(resource);
   }
+
+  @GetMapping("/visualize/{fileName}")
+  public ResponseEntity<ByteArrayResource> preview(
+      @PathVariable(value = "fileName") String fileName) {
+    var file = this.storageService.visualize(fileName);
+    String fileExtension = this.storageService.getFileExtension(fileName);
+    MediaType mediaType = this.storageService.getMediaTypeForFileExtension(fileExtension);
+    var resource = new ByteArrayResource(file);
+    return ResponseEntity.ok().contentLength(file.length).contentType(mediaType).body(resource);
+  }
 }

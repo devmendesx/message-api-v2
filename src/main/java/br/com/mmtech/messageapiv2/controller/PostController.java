@@ -16,7 +16,7 @@ public class PostController {
   private final PostService postService;
 
   @GetMapping
-  @Cacheable("posts")
+  @Cacheable("#posts")
   public ResponseEntity<?> all() {
     return ResponseEntity.ok(this.postService.allPosts());
   }

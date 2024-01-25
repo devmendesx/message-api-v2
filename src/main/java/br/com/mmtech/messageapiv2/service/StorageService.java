@@ -9,11 +9,14 @@ import com.amazonaws.util.IOUtils;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -49,6 +52,17 @@ public class StorageService {
     }
   }
 
+  public byte[] visualize(String fileName) {
+    try {
+      S3Object s3Object = storageClient.getObject(this.bucket, fileName);
+      S3ObjectInputStream inputStream = s3Object.getObjectContent();
+      return IOUtils.toByteArray(inputStream);
+    } catch (IOException e) {
+      log.error("m=download, message={}", e.getMessage());
+      throw new RuntimeException(e);
+    }
+  }
+
   private File convertMultipartToFile(MultipartFile file) {
     File convertedFile = new File(Objects.requireNonNull(file.getOriginalFilename()));
     try (FileOutputStream fos = new FileOutputStream(convertedFile)) {
@@ -57,5 +71,21 @@ public class StorageService {
       throw new RuntimeException(e);
     }
     return convertedFile;
+  }
+
+  public MediaType getMediaTypeForFileExtension(String extension) {
+    Map<String, MediaType> extensionMap = new HashMap<>();
+    extensionMap.put("jpeg", MediaType.IMAGE_JPEG);
+    extensionMap.put("jpg", MediaType.IMAGE_JPEG);
+    extensionMap.put("png", MediaType.IMAGE_PNG);
+    extensionMap.put("gif", MediaType.IMAGE_GIF);
+    extensionMap.put("webp", new MediaType("image", "webp"));
+    return extensionMap.getOrDefault(extension.toLowerCase(), MediaType.APPLICATION_OCTET_STREAM);
+  }
+
+  public String getFileExtension(String fileName) {
+    if (fileName.lastIndexOf(".") != -1 && fileName.lastIndexOf(".") != 0)
+      return fileName.substring(fileName.lastIndexOf(".") + 1);
+    else return "";
   }
 }
