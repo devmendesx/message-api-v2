@@ -6,7 +6,10 @@ networks:
 
 services:
   api:
-    build: .
+    container_name: api
+    build: 
+      context: .
+      dockerfile: Dockerfile-prod
     ports:
       - "9090:80"
     networks:

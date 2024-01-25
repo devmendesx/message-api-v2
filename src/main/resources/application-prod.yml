@@ -1,0 +1,16 @@
+server:
+  port: 80
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: lojist03_adm
+    password: lojista4465
+    url: jdbc:mysql://162.241.203.161:3306/lojist03_divulgacao_fsc
+  jpa:
+    database: mysql
+    hibernate:
+      ddl-auto: none
+
+cloud:
+    bucket: fcs-bucket-supplier

@@ -1,17 +1,3 @@
-server:
-  port: 9090
-
-spring:
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    username: lojist03_adm
-    password: lojista4465
-    url: jdbc:mysql://162.241.203.161:3306/lojist03_divulgacao_fsc
-  jpa:
-    database: mysql
-    hibernate:
-      ddl-auto: none
-
 cloud:
   aws:
     credentials:
@@ -19,19 +5,3 @@ cloud:
       secret-key: zpDHT7jZp5BiKDL/H6wwTbcNv61XZE6s85VsapQm
     region:
       static: sa-east-1
-    bucket: fcs-bucket-supplier
-
-#spring:
-#  h2:
-#    console:
-#      enabled: true
-#      path: /h2
-#  jpa:
-#    hibernate:
-#      ddl-auto: create-drop
-#    open-in-view: false
-#  datasource:
-#    url: jdbc:h2:file:~/test
-#    username: sa
-#    password:
-#    driverClassName: org.h2.Driver

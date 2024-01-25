@@ -1,0 +1,7 @@
+FROM openjdk:17-oracle
+
+RUN mkdir /app
+COPY build/libs/*.jar /app/spring-boot-application.jar
+
+EXPOSE 80
+ENTRYPOINT ["java","-Dspring.profiles.active=prod","-jar","/app/spring-boot-application.jar"]
