@@ -38,7 +38,7 @@ public class PostGroupService {
         .collect(Collectors.toList());
   }
 
-  public List<Long> findShopIdByPostGroups(List<WeekGroup> weekGroups) {
+  public List<Long> findShopIdByPostGroups(List<String> weekGroups) {
     return this.postGroupRepository.findShopIdByPostGroups(weekGroups);
   }
 }

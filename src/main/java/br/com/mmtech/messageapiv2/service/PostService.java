@@ -5,6 +5,7 @@ import br.com.mmtech.messageapiv2.enumerated.Department;
 import br.com.mmtech.messageapiv2.enumerated.WeekGroup;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,7 +24,10 @@ public class PostService {
 
   public List<PostDto> allPosts() {
     try {
-      var postGroups = WeekGroup.getPlansByDay(LocalDate.now().getDayOfWeek());
+      var postGroups =
+          WeekGroup.getPlansByDay(LocalDate.now().getDayOfWeek()).stream()
+              .map(Objects::toString)
+              .collect(Collectors.toList());
       var shopIds = this.postGroupService.findShopIdByPostGroups(postGroups);
       log.info("msg=Buscando novos fornecedores para enviar mensagem., workGroup={}", postGroups);
       var shops = this.shopService.findAllByIds(shopIds);
