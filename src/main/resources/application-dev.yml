@@ -17,4 +17,5 @@ spring:
    driverClassName: org.h2.Driver
 
 cloud:
+  aws:
     bucket: fcs-bucket-supplier-dev

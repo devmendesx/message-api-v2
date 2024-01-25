@@ -5,6 +5,6 @@ services:
     container_name: api
     build: 
       context: .
-      dockerfile: Dockerfile-prod
+      dockerfile: Dockerfile
     ports:
       - "9090:9090"

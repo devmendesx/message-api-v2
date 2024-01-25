@@ -13,4 +13,5 @@ spring:
       ddl-auto: none
 
 cloud:
+  aws:
     bucket: fcs-bucket-supplier
