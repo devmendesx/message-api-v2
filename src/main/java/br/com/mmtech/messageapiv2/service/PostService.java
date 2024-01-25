@@ -3,7 +3,6 @@ package br.com.mmtech.messageapiv2.service;
 import br.com.mmtech.messageapiv2.dto.PostDto;
 import br.com.mmtech.messageapiv2.enumerated.Department;
 import br.com.mmtech.messageapiv2.enumerated.WeekGroup;
-import br.com.mmtech.messageapiv2.repository.ShopRepository;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -30,7 +29,7 @@ public class PostService {
       var shops = this.shopService.findAllByIds(shopIds);
       var shopsAll = this.shopService.findAll();
       var postGroupsAll = this.postGroupService.findAllPostGroups();
-      log.info("shops={}, posts={}",shopsAll, postGroupsAll);
+      log.info("shops={}, posts={}", shopsAll, postGroupsAll);
 
       return shops.stream()
           .map(
