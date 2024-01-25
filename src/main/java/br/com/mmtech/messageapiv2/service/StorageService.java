@@ -30,10 +30,7 @@ public class StorageService {
 
   public String upload(MultipartFile content, String fileName) {
     try {
-      var extension = StringUtils.getFilenameExtension(content.getOriginalFilename());
       var file = this.convertMultipartToFile(content);
-      assert extension != null;
-      fileName = fileName.concat(".").concat(extension);
       this.storageClient.putObject(new PutObjectRequest(bucket, fileName, file));
       file.delete();
       return "File uploaded: " + fileName;
