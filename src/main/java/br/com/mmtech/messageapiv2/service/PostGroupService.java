@@ -26,4 +26,8 @@ public class PostGroupService {
         .map(post -> PostGroupDto.builder().id(post.getId()).weekGroup(post.getPostGroup()).build())
         .collect(Collectors.toList());
   }
+
+  public List<Long> findShopIdByPostGroups(List<WeekGroup> weekGroups) {
+    return this.postGroupRepository.findShopIdByPostGroups(weekGroups);
+  }
 }

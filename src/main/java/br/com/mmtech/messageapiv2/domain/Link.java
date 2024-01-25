@@ -2,9 +2,11 @@ package br.com.mmtech.messageapiv2.domain;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
+import lombok.Getter;
 
 @Entity
 @Table(name = "link")
+@Getter
 public class Link {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -15,7 +17,6 @@ public class Link {
   @Column private String uniqueName;
   @Column private Long linkTypeId;
   @Column private int status;
-
   @Column private LocalDateTime createdAt;
   @Column private LocalDateTime updatedAt;
 

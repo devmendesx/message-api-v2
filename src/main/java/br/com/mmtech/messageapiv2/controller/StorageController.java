@@ -3,6 +3,7 @@ package br.com.mmtech.messageapiv2.controller;
 import br.com.mmtech.messageapiv2.service.StorageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +17,7 @@ public class StorageController {
   private final StorageService storageService;
 
   @PostMapping("/upload/{fileName}")
+  @CacheEvict("#posts")
   public ResponseEntity<String> upload(
       @PathVariable(value = "fileName") String fileName,
       @RequestParam(value = "file") MultipartFile file) {
