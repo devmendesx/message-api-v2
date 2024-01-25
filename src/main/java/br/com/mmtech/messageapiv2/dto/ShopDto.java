@@ -1,7 +1,6 @@
 package br.com.mmtech.messageapiv2.dto;
 
 import java.time.LocalDateTime;
-
 import lombok.*;
 
 @Builder

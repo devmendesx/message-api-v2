@@ -6,6 +6,7 @@ import br.com.mmtech.messageapiv2.repository.PostGroupRepository;
 import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,10 @@ public class PostGroupService {
   private final PostGroupRepository postGroupRepository;
 
   public List<PostGroupDto> findAllPostGroupsByPostGroup() {
-    List<WeekGroup> weekGroups = WeekGroup.getPlansByDay(LocalDate.now().getDayOfWeek());
+    var weekGroups =
+        WeekGroup.getPlansByDay(LocalDate.now().getDayOfWeek()).stream()
+            .map(Objects::toString)
+            .collect(Collectors.toList());
 
     var postGroups =
         this.postGroupRepository.findAllByPostGroupIn(weekGroups).orElse(Collections.emptyList());
