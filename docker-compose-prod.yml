@@ -1,0 +1,19 @@
+version: '3.3'
+
+networks:
+  traefik:
+    external: true
+
+services:
+  api:
+    build: .
+    ports:
+      - "9090:80"
+    networks:
+      - traefik
+    labels:
+      - "traefik.docker.network=traefik"
+      - "traefik.enable=true"
+      - "traefik.http.routers.messages-api.rule=Host(`api.mmtechnology.com.br`)"
+      - "traefik.http.routers.messages-api.entrypoints=websecure"
+      - "traefik.http.routers.messages-api.tls.certresolver=myresolver"

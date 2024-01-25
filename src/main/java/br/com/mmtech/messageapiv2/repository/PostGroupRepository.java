@@ -10,5 +10,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface PostGroupRepository extends JpaRepository<PostGroup, Long> {
 
-  Optional<List<PostGroup>> findAllByWeekGroupIn(List<WeekGroup> weekGroup);
+  Optional<List<PostGroup>> findAllByPostGroupIn(List<WeekGroup> postGroup);
 }

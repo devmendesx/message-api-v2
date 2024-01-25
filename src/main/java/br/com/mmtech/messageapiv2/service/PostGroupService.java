@@ -21,9 +21,9 @@ public class PostGroupService {
     List<WeekGroup> weekGroups = WeekGroup.getPlansByDay(LocalDate.now().getDayOfWeek());
 
     var postGroups =
-        this.postGroupRepository.findAllByWeekGroupIn(weekGroups).orElse(Collections.emptyList());
+        this.postGroupRepository.findAllByPostGroupIn(weekGroups).orElse(Collections.emptyList());
     return postGroups.stream()
-        .map(post -> PostGroupDto.builder().id(post.getId()).weekGroup(post.getWeekGroup()).build())
+        .map(post -> PostGroupDto.builder().id(post.getId()).weekGroup(post.getPostGroup()).build())
         .collect(Collectors.toList());
   }
 }

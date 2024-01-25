@@ -1,21 +1,20 @@
 package br.com.mmtech.messageapiv2.domain;
 
-import br.com.mmtech.messageapiv2.enumerated.WeekGroup;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import lombok.Getter;
 
 @Entity
-@Table(name = "post_group")
+@Table(name = "featured_image")
 @Getter
-public class PostGroup {
-
+public class FeaturedImage {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
+  @Column private String featuredImage;
   @Column private Long shopId;
-  @Column private WeekGroup postGroup;
+  @Column private int status;
   @Column private LocalDateTime createdAt;
   @Column private LocalDateTime updatedAt;
 

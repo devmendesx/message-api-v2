@@ -53,6 +53,11 @@ configurations.configureEach {
     exclude group: "commons-logging", module: "commons-logging"
 }
 
+jar {
+    manifest {
+        attributes "Main-Class": "br.com.mmtech.messageapiv2.MessageApiV2Application"
+    }
+}
 
 tasks.named('test') {
     useJUnitPlatform()

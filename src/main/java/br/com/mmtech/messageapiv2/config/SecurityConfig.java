@@ -6,7 +6,6 @@ import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
@@ -25,8 +24,9 @@ public class SecurityConfig {
 
   @Bean
   public InMemoryUserDetailsManager userDetailsService() {
-    UserDetails user =
-        User.withUsername("message-api").password("{noop}message-api").roles("ADMIN").build();
-    return new InMemoryUserDetailsManager(user);
+
+    return new InMemoryUserDetailsManager(
+        User.withUsername("message-api").password("{noop}message-api").roles("ADMIN").build(),
+        User.withUsername("upload-api").password("{noop}upload-api").roles("ADMIN").build());
   }
 }

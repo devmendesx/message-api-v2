@@ -18,18 +18,15 @@ public class Shop {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
+  @Column private String logo;
+  @Column private int departmentId;
+  @Column private Long userId;
   @Column private String name;
-
   @Column private String address;
-
   @Column private String whatsapp;
-
   @Column private String description;
-
   @Column private int status;
-
   @Column private LocalDateTime createdAt;
-
   @Column private LocalDateTime updatedAt;
 
   @PrePersist
