@@ -42,6 +42,7 @@ public class StorageService {
       }
       this.featuredImageService.updateFeaturedImage(fileName, shopId);
       this.saveFileS3(content, fileName);
+      log.info("message=Updating new image, name={}", featuredImage.get().getFeaturedImage());
       this.storageClient.deleteObject(bucket, featuredImage.get().getFeaturedImage());
       return "File uploaded: " + fileName;
     } catch (SdkClientException e) {
