@@ -37,7 +37,6 @@ public class StorageService {
           fileName,
           shopId);
       var featuredImage = this.featuredImageService.findByShopId(shopId);
-      log.info("FeaturedImage={}", featuredImage.get());
       if (featuredImage.isEmpty()) {
         this.saveFileS3(content, fileName);
         this.featuredImageService.save(fileName, shopId);
