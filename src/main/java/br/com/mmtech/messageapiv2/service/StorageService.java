@@ -36,6 +36,7 @@ public class StorageService {
           "message=Uploading image, must update or save a new one., name={}, shopId={}",
           fileName,
           shopId);
+      Thread.sleep(1000);
       var featuredImage = this.featuredImageService.findByShopId(shopId);
       if (featuredImage.isEmpty()) {
         this.saveFileS3(content, fileName);
