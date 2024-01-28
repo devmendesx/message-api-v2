@@ -1,6 +1,5 @@
 package br.com.mmtech.messageapiv2.service;
 
-import com.amazonaws.SdkClientException;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.amazonaws.services.s3.model.S3Object;
@@ -33,7 +32,10 @@ public class StorageService {
 
   public String upload(MultipartFile content, String fileName, Long shopId) {
     try {
-      log.info("message=Uploading image, must update or save a new one., name={}, shopId={}", fileName, shopId);
+      log.info(
+          "message=Uploading image, must update or save a new one., name={}, shopId={}",
+          fileName,
+          shopId);
       var featuredImage = this.featuredImageService.findByShopId(shopId);
       if (featuredImage.isEmpty()) {
         this.saveFileS3(content, fileName);
@@ -42,7 +44,10 @@ public class StorageService {
       }
       this.saveFileS3(content, fileName);
       this.storageClient.deleteObject(bucket, featuredImage.get().getFeaturedImage());
-      log.info("message=Updating new image, name={}, shopId={}", featuredImage.get().getFeaturedImage(), shopId);
+      log.info(
+          "message=Updating new image, name={}, shopId={}",
+          featuredImage.get().getFeaturedImage(),
+          shopId);
       this.featuredImageService.updateFeaturedImage(fileName, shopId);
       return "File uploaded: " + fileName;
     } catch (Exception e) {
