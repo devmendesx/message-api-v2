@@ -22,7 +22,7 @@ public class FeaturedImageService {
 
   public void updateFeaturedImage(String filename, Long shopId) {
     try {
-      this.featuredImageRepository.updateFeaturedImageByShopIdAndFeaturedImage(shopId, filename);
+      this.featuredImageRepository.updateFeaturedImage(shopId, filename);
     } catch (Exception e) {
       throw new RuntimeException(e);
     }
