@@ -2,9 +2,8 @@ package br.com.mmtech.messageapiv2.service;
 
 import br.com.mmtech.messageapiv2.domain.FeaturedImage;
 import br.com.mmtech.messageapiv2.repository.FeaturedImageRepository;
-import java.util.Optional;
-
 import jakarta.transaction.Transactional;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
