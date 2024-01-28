@@ -2,11 +2,17 @@ package br.com.mmtech.messageapiv2.domain;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "featured_image")
 @Getter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class FeaturedImage {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)

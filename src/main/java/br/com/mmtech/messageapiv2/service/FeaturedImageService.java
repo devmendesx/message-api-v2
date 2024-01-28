@@ -19,4 +19,18 @@ public class FeaturedImageService {
       throw exception;
     }
   }
+
+  public void updateFeaturedImage(String filename, Long shopId) {
+    try {
+      this.featuredImageRepository.updateFeaturedImageByShopIdAndFeaturedImage(shopId, filename);
+    } catch (Exception e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  public void save(String filename, Long shopId) {
+    var featuredImage =
+        FeaturedImage.builder().featuredImage(filename).shopId(shopId).status(1).build();
+    this.featuredImageRepository.save(featuredImage);
+  }
 }

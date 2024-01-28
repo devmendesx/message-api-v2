@@ -29,33 +29,36 @@ public class StorageService {
   private String bucket;
 
   private final AmazonS3 storageClient;
+  private final FeaturedImageService featuredImageService;
 
-  public String upload(MultipartFile content, String fileName) {
+  public String upload(MultipartFile content, String fileName, Long shopId) {
     try {
-      var file = this.convertMultipartToFile(content);
-      this.storageClient.putObject(new PutObjectRequest(bucket, fileName, file));
-      file.delete();
+      log.info("message=Uploading image, must update or save a new one., name={}", fileName);
+      var featuredImage = this.featuredImageService.findByShopId(shopId);
+      if (featuredImage.isEmpty()) {
+        this.saveFileS3(content, fileName);
+        this.featuredImageService.save(fileName, shopId);
+        return "File uploaded: " + fileName;
+      }
+      this.storageClient.deleteObject(bucket, featuredImage.get().getFeaturedImage());
+      this.saveFileS3(content, fileName);
       return "File uploaded: " + fileName;
     } catch (SdkClientException e) {
+      log.error("message=Error on uploading image., name={}", fileName);
       throw new RuntimeException(e);
     }
   }
 
-  public byte[] download(String fileName) {
+  private void saveFileS3(MultipartFile content, String fileName) {
+    var file = this.convertMultipartToFile(content);
+    this.storageClient.putObject(new PutObjectRequest(bucket, fileName, file));
+    file.delete();
+  }
+
+  public byte[] getObject(String fileName) {
     try {
       S3Object file = this.storageClient.getObject(this.bucket, fileName);
       S3ObjectInputStream inputStream = file.getObjectContent();
-      return IOUtils.toByteArray(inputStream);
-    } catch (IOException e) {
-      log.error("m=download, message={}", e.getMessage());
-      throw new RuntimeException(e);
-    }
-  }
-
-  public byte[] visualize(String fileName) {
-    try {
-      S3Object s3Object = storageClient.getObject(this.bucket, fileName);
-      S3ObjectInputStream inputStream = s3Object.getObjectContent();
       return IOUtils.toByteArray(inputStream);
     } catch (IOException e) {
       log.error("m=download, message={}", e.getMessage());

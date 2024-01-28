@@ -16,13 +16,14 @@ import org.springframework.web.multipart.MultipartFile;
 public class StorageController {
   private final StorageService storageService;
 
-  @PostMapping("/upload/{fileName}")
+  @PostMapping("/upload/{fileName}/{shopId}")
   @CacheEvict("#posts")
   public ResponseEntity<String> upload(
       @PathVariable(value = "fileName") String fileName,
+      @PathVariable(value = "shopId") Long shopId,
       @RequestParam(value = "file") MultipartFile file) {
     try {
-      return ResponseEntity.ok(this.storageService.upload(file, fileName));
+      return ResponseEntity.ok(this.storageService.upload(file, fileName, shopId));
     } catch (Exception e) {
       throw new RuntimeException(e);
     }
@@ -31,7 +32,7 @@ public class StorageController {
   @GetMapping("/download/{fileName}")
   public ResponseEntity<ByteArrayResource> download(
       @PathVariable(value = "fileName") String fileName) {
-    var file = this.storageService.download(fileName);
+    var file = this.storageService.getObject(fileName);
     var resource = new ByteArrayResource(file);
     return ResponseEntity.ok()
         .contentLength(file.length)
@@ -43,7 +44,7 @@ public class StorageController {
   @GetMapping("/visualize/{fileName}")
   public ResponseEntity<ByteArrayResource> preview(
       @PathVariable(value = "fileName") String fileName) {
-    var file = this.storageService.visualize(fileName);
+    var file = this.storageService.getObject(fileName);
     String fileExtension = this.storageService.getFileExtension(fileName);
     MediaType mediaType = this.storageService.getMediaTypeForFileExtension(fileExtension);
     var resource = new ByteArrayResource(file);
