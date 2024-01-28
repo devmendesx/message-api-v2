@@ -33,19 +33,19 @@ public class StorageService {
 
   public String upload(MultipartFile content, String fileName, Long shopId) {
     try {
-      log.info("message=Uploading image, must update or save a new one., name={}", fileName);
+      log.info("message=Uploading image, must update or save a new one., name={}, shopId={}", fileName, shopId);
       var featuredImage = this.featuredImageService.findByShopId(shopId);
       if (featuredImage.isEmpty()) {
         this.saveFileS3(content, fileName);
         this.featuredImageService.save(fileName, shopId);
         return "File uploaded: " + fileName;
       }
-      this.featuredImageService.updateFeaturedImage(fileName, shopId);
       this.saveFileS3(content, fileName);
-      log.info("message=Updating new image, name={}", featuredImage.get().getFeaturedImage());
       this.storageClient.deleteObject(bucket, featuredImage.get().getFeaturedImage());
+      log.info("message=Updating new image, name={}, shopId={}", featuredImage.get().getFeaturedImage(), shopId);
+      this.featuredImageService.updateFeaturedImage(fileName, shopId);
       return "File uploaded: " + fileName;
-    } catch (SdkClientException e) {
+    } catch (Exception e) {
       log.error("message=Error on uploading image., name={}", fileName);
       throw new RuntimeException(e);
     }
