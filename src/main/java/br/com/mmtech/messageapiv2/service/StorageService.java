@@ -40,8 +40,9 @@ public class StorageService {
         this.featuredImageService.save(fileName, shopId);
         return "File uploaded: " + fileName;
       }
-      this.storageClient.deleteObject(bucket, featuredImage.get().getFeaturedImage());
+      this.featuredImageService.updateFeaturedImage(fileName, shopId);
       this.saveFileS3(content, fileName);
+      this.storageClient.deleteObject(bucket, featuredImage.get().getFeaturedImage());
       return "File uploaded: " + fileName;
     } catch (SdkClientException e) {
       log.error("message=Error on uploading image., name={}", fileName);
