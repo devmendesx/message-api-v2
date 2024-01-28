@@ -14,7 +14,7 @@ public class FeaturedImageService {
 
   public Optional<FeaturedImage> findByShopId(Long id) {
     try {
-      return this.featuredImageRepository.findByShopId(id);
+      return this.featuredImageRepository.findFeaturedImageByShopId(id);
     } catch (Exception exception) {
       throw exception;
     }

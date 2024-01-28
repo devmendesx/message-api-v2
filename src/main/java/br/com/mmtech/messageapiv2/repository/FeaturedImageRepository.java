@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface FeaturedImageRepository extends JpaRepository<FeaturedImage, Long> {
 
-  Optional<FeaturedImage> findByShopId(Long shopId);
+  Optional<FeaturedImage> findFeaturedImageByShopId(Long shopId);
 
   @Query(
       "UPDATE FeaturedImage fi "
