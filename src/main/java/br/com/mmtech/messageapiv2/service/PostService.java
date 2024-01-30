@@ -28,6 +28,7 @@ public class PostService {
           WeekGroup.getPlansByDay(LocalDate.now().getDayOfWeek()).stream()
               .map(Objects::toString)
               .collect(Collectors.toList());
+      log.info("Dia da semana = {}, weekGroup={}", LocalDate.now().getDayOfWeek(), postGroups);
       var shopIds = this.postGroupService.findShopIdByPostGroups(postGroups);
       log.info("msg=Buscando novos fornecedores para enviar mensagem., workGroup={}", postGroups);
       var shops = this.shopService.findAllByIds(shopIds);
