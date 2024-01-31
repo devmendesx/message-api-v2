@@ -1,13 +1,12 @@
 package br.com.mmtech.messageapiv2.service;
 
+import br.com.mmtech.messageapiv2.domain.FreeShop;
 import br.com.mmtech.messageapiv2.domain.Shop;
 import br.com.mmtech.messageapiv2.dto.PostDto;
 import br.com.mmtech.messageapiv2.enumerated.Department;
 import br.com.mmtech.messageapiv2.enumerated.WeekGroup;
 import java.time.LocalDate;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,6 +23,7 @@ public class PostService {
   private final FeaturedImageService featuredImageService;
   private final LinkService linkService;
   private final LinkGroupService linkGroupService;
+  private final FreeShopService freeShopService;
 
   public List<PostDto> allPosts() {
     try {
@@ -32,34 +32,68 @@ public class PostService {
               .map(Objects::toString)
               .collect(Collectors.toList());
       log.info("msg=Buscando novos fornecedores para enviar mensagem., workGroup={}", postGroups);
-      var shopIds = this.postGroupService.findShopIdByPostGroups(postGroups);
-      var shops = this.shopService.findAllByIds(shopIds);
+      var paidShopIds = this.postGroupService.findShopIdByPostGroups(postGroups);
+      var shops = this.shopService.findAllByIds(paidShopIds);
       var groups = this.linkGroupService.findAllGroups();
+      var freeShops = this.freeShopService.findAllFreeShop();
 
-      return this.buildPostDto(shops, groups);
+      return this.buildPostsDto(freeShops, shops, groups);
     } catch (Exception e) {
       log.error("msg=Erro ao buscar fornecedores.");
       throw new RuntimeException(e);
     }
   }
 
-  private List<PostDto> buildPostDto(List<Shop> shops, Map<Long, List<String>> groups) {
-    return shops.stream()
-        .map(
-            shop -> {
-              var featuredImage = this.featuredImageService.findByShopId(shop.getId()).orElse(null);
-              var link = this.linkService.findByShopId(shop.getId());
-              var department = Department.getDepartmentById(shop.getDepartmentId());
-              return PostDto.builder()
-                  .name(shop.getName())
-                  .whatsappId(link.getUniqueName())
-                  .groups(groups.get((long) shop.getDepartmentId()))
-                  .description(shop.getDescription())
-                  .imageUrl(featuredImage != null ? featuredImage.getFeaturedImage() : null)
-                  .address(shop.getAddress())
-                  .department(department)
-                  .build();
-            })
+  private List<PostDto> buildPostsDto(
+      List<FreeShop> freeShops, List<Shop> shops, Map<Long, List<String>> groups) {
+
+    var allPosts = new ArrayList<PostDto>();
+
+    var postsFree =
+        freeShops.stream()
+            .map(
+                freeShop -> {
+                  var department = Department.getDepartmentById(freeShop.getDepartmentId());
+
+                  return PostDto.builder()
+                      .name(freeShop.getName())
+                      .whatsappId(freeShop.getLinkWpp())
+                      .groups(groups.get((long) freeShop.getDepartmentId()))
+                      .description(freeShop.getDescription())
+                      .imageUrl(freeShop.getFeatured())
+                      .address(freeShop.getAddress())
+                      .department(department)
+                      .isPaid(freeShop.isPaid())
+                      .build();
+                })
+            .toList();
+
+    var postsPaid =
+        shops.stream()
+            .map(
+                shop -> {
+                  var featuredImage =
+                      this.featuredImageService.findByShopId(shop.getId()).orElse(null);
+                  var link = this.linkService.findByShopId(shop.getId());
+                  var department = Department.getDepartmentById(shop.getDepartmentId());
+                  return PostDto.builder()
+                      .name(shop.getName())
+                      .whatsappId(link.getUniqueName())
+                      .groups(groups.get((long) shop.getDepartmentId()))
+                      .description(shop.getDescription())
+                      .imageUrl(featuredImage != null ? featuredImage.getFeaturedImage() : null)
+                      .address(shop.getAddress())
+                      .department(department)
+                      .isPaid(shop.isPaid())
+                      .build();
+                })
+            .toList();
+
+    allPosts.addAll(postsPaid);
+    allPosts.addAll(postsFree);
+
+    return allPosts.stream()
+        .sorted(Comparator.comparing(PostDto::isPaid))
         .collect(Collectors.toList());
   }
 }

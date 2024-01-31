@@ -15,4 +15,5 @@ public class PostDto {
   private Department department;
   private String description;
   private List<String> groups;
+  private boolean isPaid;
 }
