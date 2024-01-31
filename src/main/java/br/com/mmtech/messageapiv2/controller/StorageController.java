@@ -1,7 +1,9 @@
 package br.com.mmtech.messageapiv2.controller;
 
 import br.com.mmtech.messageapiv2.service.StorageService;
+import java.io.UnsupportedEncodingException;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.core.io.ByteArrayResource;
@@ -39,6 +41,18 @@ public class StorageController {
         .contentType(MediaType.APPLICATION_OCTET_STREAM)
         .header("Content-Disposition", "attachment; filename=" + fileName)
         .body(resource);
+  }
+
+  @GetMapping("/download/base64/{fileName}")
+  public ResponseEntity<String> downloadBase64(@PathVariable(value = "fileName") String fileName)
+      throws UnsupportedEncodingException {
+    var file = this.storageService.getObjectBase64(fileName);
+    var encodedfile = new String(Base64.encodeBase64(file), "UTF-8");
+    return ResponseEntity.ok()
+        .contentLength(file.length)
+        .contentType(MediaType.APPLICATION_OCTET_STREAM)
+        .header("Content-Disposition", "attachment; filename=" + fileName)
+        .body(encodedfile);
   }
 
   @GetMapping("/visualize/{fileName}")

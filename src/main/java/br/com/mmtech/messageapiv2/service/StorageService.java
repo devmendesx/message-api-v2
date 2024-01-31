@@ -73,6 +73,17 @@ public class StorageService {
     }
   }
 
+  public byte[] getObjectBase64(String fileName) {
+    try {
+      S3Object file = this.storageClient.getObject(this.bucket, fileName);
+      S3ObjectInputStream inputStream = file.getObjectContent();
+      return IOUtils.toByteArray(inputStream);
+    } catch (IOException e) {
+      log.error("m=download, message={}", e.getMessage());
+      throw new RuntimeException(e);
+    }
+  }
+
   private File convertMultipartToFile(MultipartFile file) {
     File convertedFile = new File(Objects.requireNonNull(file.getOriginalFilename()));
     try (FileOutputStream fos = new FileOutputStream(convertedFile)) {
