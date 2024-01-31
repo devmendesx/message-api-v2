@@ -19,7 +19,14 @@ public class SecurityConfig {
         .csrf(AbstractHttpConfigurer::disable)
         .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
         .authorizeHttpRequests(
-            requests -> requests.requestMatchers("/h2/**").permitAll().anyRequest().authenticated())
+            requests ->
+                requests
+                    .requestMatchers("/h2/**")
+                    .permitAll()
+                    .requestMatchers("/v1/storage/**")
+                    .permitAll()
+                    .anyRequest()
+                    .authenticated())
         .httpBasic(Customizer.withDefaults());
 
     return httpSecurity.build();
