@@ -12,7 +12,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface FreeShopRepository extends JpaRepository<FreeShop, Long> {
 
-  @Query("SELECT FreeShop FROM FreeShop fs WHERE fs.flgProcessed = 0 ")
+  @Query("SELECT fs FROM FreeShop fs WHERE fs.flgProcessed = 0 ")
   List<FreeShop> findAllNoProcessed(Pageable pageable);
 
   @Modifying
