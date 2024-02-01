@@ -28,7 +28,7 @@ public class Shop {
   @Column private String whatsapp;
   @Column private String description;
   @Column private int status;
-//  @Column private int flgProcessed;
+  //  @Column private int flgProcessed;
   @Column private LocalDateTime createdAt;
   @Column private LocalDateTime updatedAt;
 
