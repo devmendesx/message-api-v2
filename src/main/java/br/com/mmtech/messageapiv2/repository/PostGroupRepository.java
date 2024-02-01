@@ -14,8 +14,8 @@ public interface PostGroupRepository extends JpaRepository<PostGroup, Long> {
   Optional<List<PostGroup>> findAllByPostGroupIn(List<String> postGroup);
 
   @Query(
-      "SELECT shop.id FROM Shop shop "
-          + "INNER JOIN PostGroup post ON post.shopId = shop.id "
-          + "WHERE post.postGroup IN (:postGroup) AND shop.flgProcessed = 0 ORDER BY shop.id")
+      "SELECT shop.id FROM PostGroup post "
+          + "INNER JOIN Shop shop ON post.shopId = shop.id "
+          + "WHERE post.postGroup IN (:postGroup) ORDER BY shop.id")
   List<Long> findShopIdByPostGroups(List<String> postGroup, Pageable pageable);
 }
