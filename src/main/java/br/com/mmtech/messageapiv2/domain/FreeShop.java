@@ -19,7 +19,7 @@ public class FreeShop {
   @Column private String whatsapp;
   @Column private String linkWpp;
   @Column private int departmentId;
-  @Column private int flgProcessed;
+  //  @Column private int flgProcessed;
   @Column private LocalDateTime createdAt;
   @Column private LocalDateTime updatedAt;
 

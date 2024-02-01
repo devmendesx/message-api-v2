@@ -100,7 +100,7 @@ public class PostService {
 
   public void updateFlgProcessed(List<Long> shopIds) {
     try {
-      this.shopService.updateFlgProcessed(shopIds);
+      //      this.shopService.updateFlgProcessed(shopIds);
     } catch (Exception ex) {
       log.error("msg=Error on updating flgProcessed., ids={}", shopIds);
     }
@@ -108,7 +108,7 @@ public class PostService {
 
   public void resetFlgProcessed() {
     try {
-      this.shopService.resetFlgProcessed();
+      //      this.shopService.resetFlgProcessed();
     } catch (Exception ex) {
       log.error("msg=Error on updating flgProcessed.");
     }
