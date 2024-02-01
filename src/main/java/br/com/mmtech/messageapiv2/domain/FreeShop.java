@@ -2,11 +2,16 @@ package br.com.mmtech.messageapiv2.domain;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
+
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "free_shop")
 @Getter
+@AllArgsConstructor
+@NoArgsConstructor
 public class FreeShop {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)

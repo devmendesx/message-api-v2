@@ -14,7 +14,7 @@ import org.hibernate.annotations.SQLRestriction;
 @AllArgsConstructor
 @RequiredArgsConstructor
 @Getter
-@SQLRestriction("status = 1 AND flgProcessed = 0")
+@SQLRestriction("status = 1")
 public class Shop {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
