@@ -19,7 +19,6 @@ public class StorageController {
   private final StorageService storageService;
 
   @PostMapping("/upload/{fileName}/{shopId}")
-  @CacheEvict("#posts")
   public ResponseEntity<String> upload(
       @PathVariable(value = "fileName") String fileName,
       @PathVariable(value = "shopId") Long shopId,
