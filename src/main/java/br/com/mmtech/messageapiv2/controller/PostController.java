@@ -4,7 +4,6 @@ import br.com.mmtech.messageapiv2.service.PostService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,7 +15,7 @@ public class PostController {
 
   @GetMapping
   public ResponseEntity<?> all() {
-    return ResponseEntity.ok(this.postService.allPosts().subList(0, 9));
+    return ResponseEntity.ok(this.postService.allPosts());
   }
 
   @PutMapping

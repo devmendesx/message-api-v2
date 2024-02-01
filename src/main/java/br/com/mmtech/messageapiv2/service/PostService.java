@@ -54,7 +54,6 @@ public class PostService {
             .map(
                 freeShop -> {
                   var department = Department.getDepartmentById(freeShop.getDepartmentId());
-
                   return PostDto.builder()
                       .shopId(freeShop.getId())
                       .name(freeShop.getName())

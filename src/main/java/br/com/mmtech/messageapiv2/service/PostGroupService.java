@@ -10,6 +10,7 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -39,6 +40,6 @@ public class PostGroupService {
   }
 
   public List<Long> findShopIdByPostGroups(List<String> weekGroups) {
-    return this.postGroupRepository.findShopIdByPostGroups(weekGroups);
+    return this.postGroupRepository.findShopIdByPostGroups(weekGroups, PageRequest.of(0, 10));
   }
 }
