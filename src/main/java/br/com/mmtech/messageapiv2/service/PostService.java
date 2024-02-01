@@ -56,6 +56,7 @@ public class PostService {
                   var department = Department.getDepartmentById(freeShop.getDepartmentId());
 
                   return PostDto.builder()
+                      .shopId(freeShop.getId())
                       .name(freeShop.getName())
                       .whatsappId(freeShop.getLinkWpp())
                       .groups(groups.get((long) freeShop.getDepartmentId()))
@@ -77,6 +78,7 @@ public class PostService {
                   var link = this.linkService.findByShopId(shop.getId());
                   var department = Department.getDepartmentById(shop.getDepartmentId());
                   return PostDto.builder()
+                      .shopId(shop.getId())
                       .name(shop.getName())
                       .whatsappId(link.getUniqueName())
                       .groups(groups.get((long) shop.getDepartmentId()))
@@ -95,5 +97,21 @@ public class PostService {
     return allPosts.stream()
         .sorted(Comparator.comparing(PostDto::isPaid))
         .collect(Collectors.toList());
+  }
+
+  public void updateFlgProcessed(List<Long> shopIds) {
+    try {
+      this.shopService.updateFlgProcessed(shopIds);
+    } catch (Exception ex) {
+      log.error("msg=Error on updating flgProcessed., ids={}", shopIds);
+    }
+  }
+
+  public void resetFlgProcessed() {
+    try {
+      this.shopService.resetFlgProcessed();
+    } catch (Exception ex) {
+      log.error("msg=Error on updating flgProcessed.");
+    }
   }
 }

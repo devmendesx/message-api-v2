@@ -10,11 +10,13 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
+@Slf4j
 public class ShopService {
 
   private final ShopRepository repository;
@@ -40,5 +42,21 @@ public class ShopService {
 
   public List<Shop> findAllByIds(List<Long> ids) {
     return this.repository.findAllById(ids);
+  }
+
+  public void updateFlgProcessed(List<Long> shopIds) {
+    try {
+      this.repository.updateFlgProcessedByIds(shopIds);
+    } catch (Exception ex) {
+      log.error("msg=Error on updating flgProcessed., ids={}", shopIds);
+    }
+  }
+
+  public void resetFlgProcessed() {
+    try {
+      this.repository.resetFlgProcessed();
+    } catch (Exception ex) {
+      log.error("msg=Error on updating flgProcessed.");
+    }
   }
 }
