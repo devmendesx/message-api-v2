@@ -35,8 +35,10 @@ public class PostService {
       var paidShopIds = this.postGroupService.findShopIdByPostGroups(postGroups);
       var shops = this.shopService.findAllByIds(paidShopIds);
       var groups = this.linkGroupService.findAllGroups();
-      var freeShops = this.freeShopService.findAllFreeShop();
-
+      if (shops.size() == 10) {
+        return this.buildPostsDto(Collections.emptyList(), shops, groups);
+      }
+      var freeShops = this.freeShopService.findAllFreeShop(10 - shops.size());
       return this.buildPostsDto(freeShops, shops, groups);
     } catch (Exception e) {
       log.error("msg=Erro ao buscar fornecedores.");
@@ -100,7 +102,8 @@ public class PostService {
 
   public void updateFlgProcessed(List<Long> shopIds) {
     try {
-      //      this.shopService.updateFlgProcessed(shopIds);
+      this.shopService.updateFlgProcessed(shopIds);
+      this.freeShopService.updateFlgProcessed(shopIds);
     } catch (Exception ex) {
       log.error("msg=Error on updating flgProcessed., ids={}", shopIds);
     }
@@ -108,7 +111,8 @@ public class PostService {
 
   public void resetFlgProcessed() {
     try {
-      //      this.shopService.resetFlgProcessed();
+      this.shopService.resetFlgProcessed();
+      this.freeShopService.resetFlgProcessed();
     } catch (Exception ex) {
       log.error("msg=Error on updating flgProcessed.");
     }

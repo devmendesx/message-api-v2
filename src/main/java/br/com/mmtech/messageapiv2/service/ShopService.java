@@ -46,7 +46,7 @@ public class ShopService {
 
   public void updateFlgProcessed(List<Long> shopIds) {
     try {
-      //      this.repository.updateFlgProcessedByIds(shopIds);
+            this.repository.updateFlgProcessedByIds(shopIds);
     } catch (Exception ex) {
       log.error("msg=Error on updating flgProcessed., ids={}", shopIds);
     }
@@ -54,7 +54,7 @@ public class ShopService {
 
   public void resetFlgProcessed() {
     try {
-      //      this.repository.resetFlgProcessed();
+            this.repository.resetFlgProcessed();
     } catch (Exception ex) {
       log.error("msg=Error on updating flgProcessed.");
     }
