@@ -21,6 +21,6 @@ public interface FreeShopRepository extends JpaRepository<FreeShop, Long> {
   void updateFlgProcessedByIds(List<Long> shopIds);
 
   @Modifying
-  @Query("UPDATE FreeShop shop " + "SET shop.flgProcessed = 0 WHERE 1=1")
+  @Query("UPDATE FreeShop shop SET shop.flgProcessed = 0 WHERE 1=1")
   void resetFlgProcessed();
 }

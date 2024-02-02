@@ -24,6 +24,6 @@ public interface ShopRepository extends JpaRepository<Shop, Long> {
   void updateFlgProcessedByIds(List<Long> shopIds);
 
   @Modifying
-  @Query("UPDATE Shop shop " + "SET shop.flgProcessed = 0 WHERE 1=1")
+  @Query("UPDATE Shop shop SET shop.flgProcessed = 0 WHERE 1=1")
   void resetFlgProcessed();
 }

@@ -111,6 +111,7 @@ public class PostService {
     }
   }
 
+  @Transactional(value = Transactional.TxType.REQUIRES_NEW)
   public void resetFlgProcessed() {
     try {
       this.shopService.resetFlgProcessed();
