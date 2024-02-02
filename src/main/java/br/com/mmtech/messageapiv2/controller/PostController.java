@@ -1,7 +1,8 @@
 package br.com.mmtech.messageapiv2.controller;
 
+import br.com.mmtech.messageapiv2.dto.UpdateFLGDto;
+import br.com.mmtech.messageapiv2.enumerated.Department;
 import br.com.mmtech.messageapiv2.service.PostService;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -11,16 +12,19 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/v1/post")
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class PostController {
+
   private final PostService postService;
 
-  @GetMapping
-  public ResponseEntity<?> all() {
-    return ResponseEntity.ok(this.postService.allPosts());
+  @GetMapping("/{department}/{pageSize}")
+  public ResponseEntity<?> all(
+      @PathVariable("department") Department department, @PathVariable("pageSize") int pageSize) {
+    return ResponseEntity.ok(
+        this.postService.findPostsByDepartmentAndPageSize(department, pageSize));
   }
 
   @PutMapping
-  public ResponseEntity<?> updateFlgProcessed(@RequestBody List<Long> shopIds) {
-    this.postService.updateFlgProcessed(shopIds);
+  public ResponseEntity<?> updateFlgProcessed(@RequestBody UpdateFLGDto updateFLGDto) {
+    this.postService.updateFlgProcessed(updateFLGDto.getFreeIds(), updateFLGDto.getPaidIds());
     return ResponseEntity.ok().build();
   }
 

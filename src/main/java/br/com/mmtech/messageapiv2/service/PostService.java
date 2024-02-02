@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -25,25 +26,18 @@ public class PostService {
   private final LinkGroupService linkGroupService;
   private final FreeShopService freeShopService;
 
-  public List<PostDto> allPosts() {
-    try {
-      var postGroups =
-          WeekGroup.getPlansByDay(LocalDate.now().getDayOfWeek()).stream()
-              .map(Objects::toString)
-              .collect(Collectors.toList());
-      log.info("msg=Buscando novos fornecedores para enviar mensagem., workGroup={}", postGroups);
-      var paidShopIds = this.postGroupService.findShopIdByPostGroups(postGroups);
-      var shops = this.shopService.findAllByIds(paidShopIds);
-      var groups = this.linkGroupService.findAllGroups();
-      if (shops.size() == 10) {
-        return this.buildPostsDto(Collections.emptyList(), shops, groups);
-      }
-      var freeShops = this.freeShopService.findAllFreeShop(10 - shops.size());
-      return this.buildPostsDto(freeShops, shops, groups);
-    } catch (Exception e) {
-      log.error("msg=Erro ao buscar fornecedores.");
-      throw new RuntimeException(e);
+  public List<PostDto> findPostsByDepartmentAndPageSize(Department department, int pageSize) {
+    var postGroups = this.getWeekGroups();
+    var paidShopIds =
+        this.postGroupService.findShopIdByPostGroupsAndDepartment(
+            postGroups, department, Pageable.ofSize(pageSize));
+    var shops = this.shopService.findAllByIds(paidShopIds);
+    var groups = this.linkGroupService.findAllGroups();
+    if (shops.size() == pageSize) {
+      return this.buildPostsDto(Collections.emptyList(), shops, groups);
     }
+    var freeShops = this.freeShopService.findAllFreeShop(pageSize - shops.size());
+    return this.buildPostsDto(freeShops, shops, groups);
   }
 
   private List<PostDto> buildPostsDto(
@@ -100,12 +94,18 @@ public class PostService {
         .collect(Collectors.toList());
   }
 
-  public void updateFlgProcessed(List<Long> shopIds) {
+  private List<String> getWeekGroups() {
+    return WeekGroup.getPlansByDay(LocalDate.now().getDayOfWeek()).stream()
+        .map(Objects::toString)
+        .collect(Collectors.toList());
+  }
+
+  public void updateFlgProcessed(List<Long> freeIds, List<Long> paidIds) {
     try {
-      this.shopService.updateFlgProcessed(shopIds);
-      this.freeShopService.updateFlgProcessed(shopIds);
+      this.shopService.updateFlgProcessed(paidIds);
+      this.freeShopService.updateFlgProcessed(freeIds);
     } catch (Exception ex) {
-      log.error("msg=Error on updating flgProcessed., ids={}", shopIds);
+      log.error("msg=Error on updating flgProcessed");
     }
   }
 

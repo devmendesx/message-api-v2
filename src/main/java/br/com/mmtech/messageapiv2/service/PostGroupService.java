@@ -1,6 +1,7 @@
 package br.com.mmtech.messageapiv2.service;
 
 import br.com.mmtech.messageapiv2.dto.PostGroupDto;
+import br.com.mmtech.messageapiv2.enumerated.Department;
 import br.com.mmtech.messageapiv2.enumerated.WeekGroup;
 import br.com.mmtech.messageapiv2.repository.PostGroupRepository;
 import java.time.LocalDate;
@@ -39,7 +40,9 @@ public class PostGroupService {
         .collect(Collectors.toList());
   }
 
-  public List<Long> findShopIdByPostGroups(List<String> weekGroups) {
-    return this.postGroupRepository.findShopIdByPostGroups(weekGroups, Pageable.ofSize(10));
+  public List<Long> findShopIdByPostGroupsAndDepartment(
+      List<String> weekGroups, Department department, Pageable pageable) {
+    return this.postGroupRepository.findShopIdByPostGroups(
+        weekGroups, department.getId(), pageable);
   }
 }

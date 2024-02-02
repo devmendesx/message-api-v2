@@ -10,6 +10,15 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ShopRepository extends JpaRepository<Shop, Long> {
+
+  @Query(
+      value =
+          "(SELECT sp FROM shop sp WHERE department = 'FITNESS' LIMIT :limit) "
+              + "UNION ALL "
+              + "(SELECT sp FROM shop sp WHERE department = 'KIDS' LIMIT :limit)",
+      nativeQuery = true)
+  List<Shop> findMixedDepartments(@Param("limit") int limit);
+
   @Modifying
   @Query("UPDATE Shop shop " + "SET shop.flgProcessed = 1 WHERE shop.id  = :shopIds")
   void updateFlgProcessedByIds(@Param("shopIds") List<Long> shopIds);
