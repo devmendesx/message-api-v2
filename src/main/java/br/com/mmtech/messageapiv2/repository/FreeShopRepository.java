@@ -12,8 +12,10 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface FreeShopRepository extends JpaRepository<FreeShop, Long> {
 
-  @Query("SELECT fs FROM FreeShop fs WHERE fs.flgProcessed = 0 ")
-  List<FreeShop> findAllNoProcessed(Pageable pageable);
+  @Query(
+      "SELECT fs.id FROM FreeShop fs "
+          + "WHERE fs.flgProcessed = 0 AND fs.departmentId = :department ORDER BY fs.id")
+  List<FreeShop> findAllNoProcessed(int department, Pageable pageable);
 
   @Modifying
   @Query("UPDATE FreeShop shop " + "SET shop.flgProcessed = 1 WHERE shop.id  = :shopIds")

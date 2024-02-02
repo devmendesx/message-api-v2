@@ -36,7 +36,7 @@ public class PostService {
     if (shops.size() == pageSize) {
       return this.buildPostsDto(Collections.emptyList(), shops, groups);
     }
-    var freeShops = this.freeShopService.findAllFreeShop(pageSize - shops.size());
+    var freeShops = this.freeShopService.findAllFreeShop(department, pageSize - shops.size());
     return this.buildPostsDto(freeShops, shops, groups);
   }
 

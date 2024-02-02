@@ -1,6 +1,7 @@
 package br.com.mmtech.messageapiv2.service;
 
 import br.com.mmtech.messageapiv2.domain.FreeShop;
+import br.com.mmtech.messageapiv2.enumerated.Department;
 import br.com.mmtech.messageapiv2.repository.FreeShopRepository;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -15,8 +16,8 @@ import org.springframework.stereotype.Service;
 public class FreeShopService {
   private final FreeShopRepository repository;
 
-  public List<FreeShop> findAllFreeShop(int size) {
-    return this.repository.findAllNoProcessed(Pageable.ofSize(size));
+  public List<FreeShop> findAllFreeShop(Department department, int pageSize) {
+    return this.repository.findAllNoProcessed(department.getId(), Pageable.ofSize(pageSize));
   }
 
   public void updateFlgProcessed(List<Long> shopIds) {
