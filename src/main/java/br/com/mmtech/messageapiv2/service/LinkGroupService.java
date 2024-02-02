@@ -21,9 +21,7 @@ public class LinkGroupService {
     Map<Long, List<String>> departmentGroupsMap = new HashMap<>();
     for (LinkGroup group : groups) {
       Long departmentId = (long) group.getDepartmentId();
-      departmentGroupsMap
-          .computeIfAbsent(departmentId, k -> new ArrayList<>())
-          .add(group.getJid());
+      departmentGroupsMap.computeIfAbsent(departmentId, k -> new ArrayList<>()).add(group.getJid());
     }
     return departmentGroupsMap;
   }
