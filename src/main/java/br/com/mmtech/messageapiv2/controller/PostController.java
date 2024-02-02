@@ -23,8 +23,8 @@ public class PostController {
   }
 
   @PutMapping
-  public ResponseEntity<?> updateFlgProcessed(@RequestBody UpdateFLGDto updateFLGDto) {
-    this.postService.updateFlgProcessed(updateFLGDto.getFreeIds(), updateFLGDto.getPaidIds());
+  public ResponseEntity<?> updateFlgProcessed(@RequestBody UpdateFLGDto updateFlg) {
+    this.postService.updateFlgProcessed(updateFlg.getFreeIds(), updateFlg.getPaidIds());
     return ResponseEntity.ok().build();
   }
 
