@@ -24,7 +24,7 @@ public class FreeShopService {
     try {
       this.repository.updateFlgProcessedByIds(shopIds);
     } catch (Exception ex) {
-      log.error("msg=Error on updating flgProcessed., ids={}", shopIds);
+      log.error("msg=Error on updating flgProcessed., ids={}, ex={}", shopIds, ex.getMessage());
     }
   }
 

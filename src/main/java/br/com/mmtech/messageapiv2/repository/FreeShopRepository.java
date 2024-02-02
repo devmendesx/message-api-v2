@@ -6,7 +6,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -19,7 +18,7 @@ public interface FreeShopRepository extends JpaRepository<FreeShop, Long> {
 
   @Modifying
   @Query("UPDATE FreeShop shop SET shop.flgProcessed = 1 WHERE shop.id IN (:shopIds)")
-  void updateFlgProcessedByIds(@Param("shopIds") List<Long> shopIds);
+  void updateFlgProcessedByIds(List<Long> shopIds);
 
   @Modifying
   @Query("UPDATE FreeShop shop " + "SET shop.flgProcessed = 0 WHERE 1=1")
