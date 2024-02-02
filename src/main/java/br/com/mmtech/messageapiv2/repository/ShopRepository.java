@@ -20,7 +20,7 @@ public interface ShopRepository extends JpaRepository<Shop, Long> {
   List<Shop> findMixedDepartments(@Param("limit") int limit);
 
   @Modifying
-  @Query("UPDATE Shop shop " + "SET shop.flgProcessed = 1 WHERE shop.id  = :shopIds")
+  @Query("UPDATE Shop shop " + "SET shop.flgProcessed = 1 WHERE shop.id  = IN(:shopIds)")
   void updateFlgProcessedByIds(@Param("shopIds") List<Long> shopIds);
 
   @Modifying
