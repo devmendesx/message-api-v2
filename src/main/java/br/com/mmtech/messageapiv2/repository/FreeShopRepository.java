@@ -13,7 +13,7 @@ import org.springframework.stereotype.Repository;
 public interface FreeShopRepository extends JpaRepository<FreeShop, Long> {
 
   @Query(
-      "SELECT fs.id FROM FreeShop fs "
+      "SELECT fs FROM FreeShop fs "
           + "WHERE fs.flgProcessed = 0 AND fs.departmentId = :department ORDER BY fs.id")
   List<FreeShop> findAllNoProcessed(int department, Pageable pageable);
 
