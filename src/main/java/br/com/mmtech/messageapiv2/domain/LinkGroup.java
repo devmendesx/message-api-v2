@@ -18,6 +18,7 @@ public class LinkGroup {
   @Column private int departmentId;
   @Column private LocalDateTime createdAt;
   @Column private LocalDateTime updatedAt;
+  @Column private String jid;
 
   @PrePersist
   private void createdAt() {

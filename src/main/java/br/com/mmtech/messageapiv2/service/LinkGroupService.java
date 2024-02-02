@@ -23,7 +23,7 @@ public class LinkGroupService {
       Long departmentId = (long) group.getDepartmentId();
       departmentGroupsMap
           .computeIfAbsent(departmentId, k -> new ArrayList<>())
-          .add(group.getName());
+          .add(group.getJid());
     }
     return departmentGroupsMap;
   }
