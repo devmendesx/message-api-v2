@@ -5,6 +5,7 @@ import br.com.mmtech.messageapiv2.domain.Shop;
 import br.com.mmtech.messageapiv2.dto.PostDto;
 import br.com.mmtech.messageapiv2.enumerated.Department;
 import br.com.mmtech.messageapiv2.enumerated.WeekGroup;
+import jakarta.transaction.Transactional;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -100,6 +101,7 @@ public class PostService {
         .collect(Collectors.toList());
   }
 
+  @Transactional(value = Transactional.TxType.REQUIRES_NEW)
   public void updateFlgProcessed(List<Long> freeIds, List<Long> paidIds) {
     try {
       this.shopService.updateFlgProcessed(paidIds);
